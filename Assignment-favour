@@ -1,2 +1,131 @@
 # Assiginment 
 explain git conflict and all the ways you can resolve 
+# Git Conflict and Ways to Resolve It
+
+## What is a Git Conflict?
+
+A Git conflict happens when Git cannot automatically merge changes between two commits or branches because the same lines of code were modified differently.
+Git stops the process and asks you to decide which changes to keep.
+
+## Common Causes of Git Conflicts
+
+1. When merging branches that changed the same lines differently.
+2. When pulling updates from a remote repository that overlap with your local changes.
+3. During rebasing or cherry-picking overlapping commits.
+4. When undoing merges or rewriting commit history.
+
+## Example of a Conflict
+
+Suppose both main and feature branches changed the same line in a file called style.css.
+
+main branch:
+color: blue;
+
+feature branch:
+color: red;
+
+If you run:
+git merge feature
+
+Git will show:
+<<<<<<< HEAD
+color: blue;
+============
+
+color: red;
+
+> > > > > > > feature
+
+Explanation of markers:
+
+* <<<<<<< HEAD → your current branch version (main)
+* ======= → divider
+* > > > > > > > feature → incoming branch version
+
+## Steps to Resolve a Conflict
+
+1. Check for conflicts:
+   git status
+
+2. Open the conflicted file:
+   You will see the conflict markers (<<<<<<<, =======, >>>>>>>).
+
+3. Manually edit the file:
+   Decide which version to keep or combine both, then remove the markers.
+
+   Example (combined):
+   color: blue and red;
+
+4. Mark the file as resolved:
+   git add style.css
+
+5. Complete the merge:
+   git commit
+
+## Ways to Resolve Git Conflicts
+
+1. Manual Editing
+
+   * Open the file, remove the conflict markers, and keep or combine the lines you want.
+   * Then run:
+     git add <file>
+     git commit
+
+2. Using VS Code
+
+   * Open the conflicted file.
+   * Choose one of the options:
+     Accept Current Change
+     Accept Incoming Change
+     Accept Both Changes
+     Compare Changes
+   * Save the file, then run:
+     git add <file>
+     git commit
+
+3. Using Command Line Shortcuts
+
+   * Keep your version:
+     git checkout --ours <file>
+   * Keep their version:
+     git checkout --theirs <file>
+   * Then:
+     git add <file>
+     git commit
+
+4. Using a Merge Tool
+
+   * Git can open a visual merge tool (e.g., meld, kdiff3, vimdiff):
+     git mergetool
+
+5. Aborting the Merge or Rebase
+
+   * If you want to cancel the merge or rebase completely:
+     git merge --abort
+     git rebase --abort
+
+6. During a Rebase
+
+   * After fixing the conflict, continue the rebase:
+     git add <file>
+     git rebase --continue
+
+## Best Practices to Avoid Conflicts
+
+* Pull updates frequently before starting new work (git pull origin main).
+* Communicate with teammates to avoid editing the same files.
+* Make small, clear commits to reduce overlap.
+* Use feature branches to isolate your work.
+
+## Summary Table
+
+| Task                 | Command                      |
+| -------------------- | ---------------------------- |
+| See conflicted files | git status                   |
+| Keep your version    | git checkout --ours <file>   |
+| Keep their version   | git checkout --theirs <file> |
+| Open merge tool      | git mergetool                |
+| Abort merge          | git merge --abort            |
+| Resolve and continue | git add <file> → git commit  |
+
+
