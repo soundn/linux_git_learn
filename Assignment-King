@@ -141,4 +141,4 @@ git commit -m "Resolved merge conflicts"
 # | git merge --abort        | Cancel the merge process                 |
 # | git rebase --continue    | Continue a rebase after fixing           |
 # | git rebase --abort       | Cancel the rebase process                |
-# =========================================
+# =========================================++
