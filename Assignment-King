@@ -1,2 +1,144 @@
 # Assiginment 
 explain git conflict and all the ways you can resolve 
+
+# =========================================
+# 🧩 WHAT IS A GIT CONFLICT?
+# =========================================
+# A Git conflict happens when Git cannot automatically merge changes
+# between two branches because the SAME PART of a file was modified
+# differently in both branches.
+
+# Example:
+# <<<<<<< HEAD
+# print("Hello from main")
+# =======
+# print("Hello from feature")
+# >>>>>>> feature
+#
+# Git stops the merge and asks you to decide which version to keep.
+
+# Common causes:
+# 1. Merging branches with overlapping edits
+# 2. Pulling updates from a remote with conflicting local changes
+# 3. Rebasing commits on top of changed history
+# 4. Cherry-picking or stashing conflicting code
+
+
+# =========================================
+# ⚙️ WAYS TO RESOLVE A GIT CONFLICT
+# =========================================
+
+# --------
+# 1️⃣ MANUAL RESOLUTION
+# --------
+# - Open the conflicted file in your editor
+# - Look for markers: <<<<<<<, =======, >>>>>>>
+# - Decide which code to keep (yours, theirs, or both)
+# - Delete the markers
+# - Save the file and stage it
+
+git add path/to/file
+git merge --continue     # or git rebase --continue
+
+# Example final version after manual merge:
+# print("Hello from both main and feature")
+
+
+# --------
+# 2️⃣ KEEP YOUR VERSION (OURS)
+# --------
+# Use your current branch’s version of the file.
+git checkout --ours path/to/file
+git add path/to/file
+git merge --continue
+
+
+# --------
+# 3️⃣ KEEP THEIR VERSION (THEIRS)
+# --------
+# Use the incoming branch’s version of the file.
+git checkout --theirs path/to/file
+git add path/to/file
+git merge --continue
+
+
+# --------
+# 4️⃣ USE A VISUAL MERGE TOOL
+# --------
+# You can use VS Code, Meld, GitKraken, or another merge tool.
+git mergetool
+# Then follow the GUI to choose lines to keep and save.
+
+
+# --------
+# 5️⃣ ABORT THE MERGE OR REBASE
+# --------
+# If the merge gets too messy, cancel the process entirely.
+git merge --abort
+# or
+git rebase --abort
+
+
+# --------
+# 6️⃣ AUTOMATED STRATEGIES VIA .gitattributes
+# --------
+# You can define automatic conflict resolution rules for certain files.
+
+# Example: Always prefer "ours" for binary or lock files.
+# In .gitattributes:
+# *.lock merge=ours
+
+# This tells Git to auto-resolve conflicts for those files.
+
+
+# --------
+# 7️⃣ RERERE – Reuse Recorded Resolution
+# --------
+# If you encounter the same conflict again, Git can remember your fix.
+git config --global rerere.enabled true
+# Once enabled, Git auto-applies past conflict resolutions.
+
+
+# =========================================
+# ✅ AFTER RESOLVING CONFLICTS
+# =========================================
+# 1. Verify resolution:
+git status
+
+# 2. Stage all resolved files:
+git add .
+
+# 3. Continue the merge or rebase:
+git merge --continue
+# or
+git rebase --continue
+
+# 4. Commit the result (if Git doesn’t do it automatically):
+git commit -m "Resolved merge conflicts"
+
+
+# =========================================
+# 💡 PREVENTING FUTURE CONFLICTS
+# =========================================
+# - Pull and merge often to stay updated with remote changes.
+# - Make small, focused commits to reduce overlap.
+# - Communicate with your team about who edits what.
+# - Use feature branches for isolated development.
+# - Avoid editing large shared files unnecessarily.
+
+
+# =========================================
+# 🧠 SUMMARY TABLE
+# =========================================
+# | Command | Action |
+# |--------------------------|------------------------------------------|
+# | git status               | Show conflicted files                    |
+# | git diff                 | View conflict differences                |
+# | git checkout --ours FILE | Keep your version                        |
+# | git checkout --theirs FILE | Keep their version                     |
+# | git mergetool            | Use a visual merge tool                  |
+# | git merge --continue     | Finish merge after fixing                |
+# | git merge --abort        | Cancel the merge process                 |
+# | git rebase --continue    | Continue a rebase after fixing           |
+# | git rebase --abort       | Cancel the rebase process                |
+# =========================================
